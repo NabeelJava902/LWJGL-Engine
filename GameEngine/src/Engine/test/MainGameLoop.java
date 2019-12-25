@@ -80,7 +80,7 @@ public class MainGameLoop {
 			tallGrass[i] = entityBuilder.buildOBJEntity("tallGrass/tallGrassModel", "tallGrass/tallGrassTexture", 10, 1, true, new Vector3f(x, y, z), 0, 0, 0, 2);
 		}
 		
-		Entity ferns[] = new Entity[250];
+		Entity ferns[] = new Entity[400];
 		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern/fernAtlas"));
 		fernTextureAtlas.setNumberOfRows(2);
 		ModelData fernData = OBJFileLoader.loadOBJ("fern/fern");
