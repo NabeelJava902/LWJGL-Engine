@@ -8,6 +8,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import java.nio.*;
 
@@ -77,6 +78,10 @@ public abstract class shaderProgram {
 		matrix.store(matrixBuffer);
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4(location, false, matrixBuffer);
+	}
+	
+	protected void load2DVector(int location, Vector2f vector) {
+		GL20.glUniform2f(location, vector.x,  vector.y);
 	}
 	
 	private static int loadShader(String file, int type){

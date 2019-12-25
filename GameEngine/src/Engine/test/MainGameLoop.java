@@ -14,10 +14,15 @@ import Engine.entities.Light;
 import Engine.entities.Player;
 import Engine.guis.GuiRenderer;
 import Engine.guis.GuiTexture;
+import Engine.models.RawModel;
+import Engine.models.TexturedModel;
+import Engine.objConverter.ModelData;
+import Engine.objConverter.OBJFileLoader;
 import Engine.render.DisplayManager;
 import Engine.render.Loader;
 import Engine.render.MasterRenderer;
 import Engine.terrains.Terrain;
+import Engine.textures.ModelTexture;
 import Engine.textures.TerrainTexture;
 import Engine.textures.TerrainTexturePack;
 import Engine.toolBox.entityBuilder;
@@ -76,12 +81,17 @@ public class MainGameLoop {
 		}
 		
 		Entity ferns[] = new Entity[250];
+		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern/fernAtlas"));
+		fernTextureAtlas.setNumberOfRows(2);
+		ModelData fernData = OBJFileLoader.loadOBJ("fern/fern");
+		RawModel fernModel = loader.loadToVAO(fernData.getVertices(), fernData.getTextureCoords(), fernData.getNormals(), fernData.getIndices());
+		TexturedModel texturedFern = new TexturedModel(fernModel, fernTextureAtlas);
 		for(int i=0; i<ferns.length; i++) {
 			float x = (float)random.nextInt(1500);
 			float z = (float)random.nextInt(1500);
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
-			ferns[i] = entityBuilder.buildOBJEntity("fern/fern", "fern/fernTexture", 10, 1, true, new Vector3f(x, y, z), 0, 0, 0, 1);
+			ferns[i] = new Entity(texturedFern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 1);
 		}
 		
 		Entity[] trees = new Entity[50];
