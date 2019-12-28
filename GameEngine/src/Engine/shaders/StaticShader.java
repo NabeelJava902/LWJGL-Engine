@@ -17,7 +17,7 @@ import java.util.List;
  * @author Nabeel Arif
  *
  */
-public class staticShader extends shaderProgram{
+public class StaticShader extends ShaderProgram {
 
 	private static final int MAX_LIGHTS = 4;
 
@@ -29,6 +29,7 @@ public class staticShader extends shaderProgram{
 	private int location_viewMatrix;
 	private int location_lightPosition[];
 	private int location_lightColor[];
+	private int location_attenuation[];
 	private int location_shineDamper;
 	private int location_reflectivity;
 	private int location_useFakeLighting;
@@ -36,7 +37,7 @@ public class staticShader extends shaderProgram{
 	private int location_numberOfRows;
 	private int location_offset;
 	
-	public staticShader() {
+	public StaticShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
 	}
 
@@ -61,9 +62,11 @@ public class staticShader extends shaderProgram{
 
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_lightColor = new int[MAX_LIGHTS];
+		location_attenuation = new int[MAX_LIGHTS];
 		for(int i=0; i<4; i++){
 			location_lightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
 			location_lightColor[i] = super.getUniformLocation("lightColor[" + i + "]");
+			location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 	}
 	
@@ -97,9 +100,11 @@ public class staticShader extends shaderProgram{
 			if(i<lights.size()){
 				super.loadVector(location_lightPosition[i], lights.get(i).getPosition());
 				super.loadVector(location_lightColor[i], lights.get(i).getColor());
+				super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
 			}else{
 				super.loadVector(location_lightPosition[i], new Vector3f(0, 0, 0));
 				super.loadVector(location_lightColor[i], new Vector3f(0, 0, 0));
+				super.loadVector(location_attenuation[i], new Vector3f(1, 0, 0));
 			}
 		}
 	}

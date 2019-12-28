@@ -55,13 +55,18 @@ public class MainGameLoop {
 		
 		//*********************************
 		List<Light> lights = new ArrayList<>();
-		lights.add(new Light(new Vector3f(20000,40000,20000),new Vector3f(1,1,1)));
-		//lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-		//lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+		lights.add(new Light(new Vector3f(0,1000,-7000),new Vector3f(0.4f, 0.4f, 0.4f)));
+		lights.add(new Light(new Vector3f(185, 10, 600), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(370, 17, 500), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(293, 7, 450), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+
+		List<Entity> entities = new ArrayList<>();
 
 		Entity dragon = entityBuilder.buildOBJEntity("dragon/dragon", "dragon/white", 10, 1, false, new Vector3f(300, 50, 300), 0, 0, 0, 2);
-		
+		entities.add(dragon);
+
 		Entity stall = entityBuilder.buildOBJEntity("stall/stall", "stall/stallTexture", 10, 1, false, new Vector3f(300, checkTerrain(300, 150).getHeightOfTerrain(300, 150), 150), 0, 140, 0, 2);
+		entities.add(stall);
 		
 		Random random = new Random();
 		Entity[] lowPolyTrees = new Entity[50];
@@ -71,6 +76,7 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			lowPolyTrees[i] = entityBuilder.buildOBJEntity("tree2/lowPolyTree", "tree2/lowPolytreeTexture", 10, 1, false, new Vector3f(x, y, z), 0, 0, 0, 1);
+			entities.add(lowPolyTrees[i]);
 		}
 		
 		Entity tallGrass[] = new Entity[500];
@@ -80,6 +86,7 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			tallGrass[i] = entityBuilder.buildOBJEntity("tallGrass/tallGrassModel", "tallGrass/tallGrassTexture", 10, 1, true, new Vector3f(x, y, z), 0, 0, 0, 2);
+			entities.add(tallGrass[i]);
 		}
 		
 		Entity ferns[] = new Entity[400];
@@ -94,6 +101,7 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			ferns[i] = new Entity(texturedFern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 1);
+			entities.add(ferns[i]);
 		}
 		
 		Entity[] trees = new Entity[50];
@@ -103,6 +111,7 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			trees[i] = entityBuilder.buildOBJEntity("tree/tree", "tree/treeTexture", 10, 1, false, new Vector3f(x, y, z), 0, 0, 0, 9);
+			entities.add(trees[i]);
 		}
 		
 		Entity[] lamps = new Entity[50];
@@ -112,12 +121,18 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			lamps[i] = entityBuilder.buildOBJEntity("lamp/lamp", "lamp/lampTexture", 10, 1, false, new Vector3f(x, y, z), 0, 0, 0, 2);
+			entities.add(lamps[i]);
 		}
-		
+
+		entities.add(entityBuilder.buildOBJEntity("lamp/lamp", "lamp/lampTexture", 10, 1, false, new Vector3f(lights.get(1).getPosition().x, checkTerrain(lights.get(1).getPosition().x, lights.get(1).getPosition().z).getHeightOfTerrain(lights.get(1).getPosition().x, lights.get(1).getPosition().z), lights.get(1).getPosition().z), 0, 0, 0, 1));
+		entities.add(entityBuilder.buildOBJEntity("lamp/lamp", "lamp/lampTexture", 10, 1, false, new Vector3f(lights.get(2).getPosition().x, checkTerrain(lights.get(2).getPosition().x, lights.get(2).getPosition().z).getHeightOfTerrain(lights.get(2).getPosition().x, lights.get(2).getPosition().z), lights.get(2).getPosition().z), 0, 0, 0, 1));
+		entities.add(entityBuilder.buildOBJEntity("lamp/lamp", "lamp/lampTexture", 10, 1, false, new Vector3f(lights.get(3).getPosition().x, checkTerrain(lights.get(3).getPosition().x, lights.get(3).getPosition().z).getHeightOfTerrain(lights.get(3).getPosition().x, lights.get(3).getPosition().z), lights.get(3).getPosition().z), 0, 0, 0, 1));
+
 		Player player = entityBuilder.buildOBJPlayer("player/person", "player/humanTexture", 10, 1, false, new Vector3f(300, checkTerrain(300, 550).getHeightOfTerrain(300, 550), 550), 0, 100, 0, 1);
 		Camera camera = new Camera(player);		
-		
+
 		Entity box = entityBuilder.buildOBJEntity("box/box", "box/boxTexture", 10, 1, false, new Vector3f(300, 0, 300), 0, 0, 0, 9);
+		entities.add(box);
 		
 		Entity[] rocks = new Entity[50];
 		for(int i=0; i<rocks.length; i++) {
@@ -126,9 +141,11 @@ public class MainGameLoop {
 			currentTerrain = checkTerrain(x, z);
 			float y = currentTerrain.getHeightOfTerrain(x, z);
 			rocks[i] = entityBuilder.buildOBJEntity("rock/rock", "rock/rockTexture", 100, 0, false, new Vector3f(x, y, z), 0, 0, 0, 3);
+			entities.add(rocks[i]);
 		}
-		
+
 		Entity moon = entityBuilder.buildOBJEntity("moon/moon", "moon/moonTexture", 10, 1, false, new Vector3f(300, checkTerrain(300, 550).getHeightOfTerrain(300, 550)+20, 550), 0, 100, 0, 1);
+		//entities.add(moon);
 		
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("guis/healthBarGui"), new Vector2f(-0.6f, 0.9f), new Vector2f(0.4f, 0.4f), 0, 0, 0);
@@ -148,32 +165,9 @@ public class MainGameLoop {
 			renderer.processTerrain(terrain2);
 			renderer.processTerrain(terrain3);
 			renderer.processTerrain(terrain4);
-			renderer.processEntity(dragon);
-			renderer.processEntity(stall);
-			renderer.processEntity(box);
-			
-			for(Entity tree : lowPolyTrees) {
-				renderer.processEntity(tree);
-			}
-			
-			for(Entity grass : tallGrass) {
-				renderer.processEntity(grass);
-			}
-			
-			for(Entity fern : ferns) {
-				renderer.processEntity(fern);
-			}
-			
-			for(Entity tree : trees) {
-				renderer.processEntity(tree);
-			}
-			
-			for(Entity lamp : lamps) {
-				renderer.processEntity(lamp);
-			}
-			
-			for(Entity rock : rocks) {
-				renderer.processEntity(rock);
+
+			for(Entity entity : entities){
+				renderer.processEntity(entity);
 			}
 			
 			renderer.render(lights,  camera);

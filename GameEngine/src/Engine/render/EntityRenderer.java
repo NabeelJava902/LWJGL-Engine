@@ -12,16 +12,16 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
  
-import Engine.shaders.staticShader;
+import Engine.shaders.StaticShader;
 import Engine.textures.ModelTexture;
 import Engine.toolBox.Maths;
 import Engine.entities.Entity;
  
 public class EntityRenderer {
  
-    private staticShader shader;
+    private StaticShader shader;
  
-    public EntityRenderer(staticShader shader,Matrix4f projectionMatrix) {
+    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);

@@ -11,7 +11,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
  
-import Engine.shaders.staticShader;
+import Engine.shaders.StaticShader;
 import Engine.shaders.TerrainShader;
 import Engine.terrains.Terrain;
 import Engine.entities.Camera;
@@ -30,7 +30,7 @@ public class MasterRenderer {
      
     private Matrix4f projectionMatrix;
      
-    private staticShader shader = new staticShader();
+    private StaticShader shader = new StaticShader();
     private EntityRenderer renderer;
      
     private TerrainRenderer terrainRenderer;

@@ -2,9 +2,9 @@ package Engine.guis;
 
 import org.lwjgl.util.vector.Matrix4f;
 
-import Engine.shaders.shaderProgram;
+import Engine.shaders.ShaderProgram;
 
-public class GuiShader extends shaderProgram{
+public class GuiShader extends ShaderProgram {
 	
 	private static final String VERTEX_FILE = "GameEngine/src/Engine/guis/guiVertexShader.txt";
 	private static final String FRAGMENT_FILE = "GameEngine/src/Engine/guis/guiFragmentShader.txt";
