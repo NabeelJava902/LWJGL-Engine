@@ -54,9 +54,11 @@ public class MainGameLoop {
 		Terrain currentTerrain;
 		
 		//*********************************
-		
-		Light light = new Light(new Vector3f(20000,40000,20000),new Vector3f(1,1,1));
-		
+		List<Light> lights = new ArrayList<>();
+		lights.add(new Light(new Vector3f(20000,40000,20000),new Vector3f(1,1,1)));
+		//lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
+		//lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+
 		Entity dragon = entityBuilder.buildOBJEntity("dragon/dragon", "dragon/white", 10, 1, false, new Vector3f(300, 50, 300), 0, 0, 0, 2);
 		
 		Entity stall = entityBuilder.buildOBJEntity("stall/stall", "stall/stallTexture", 10, 1, false, new Vector3f(300, checkTerrain(300, 150).getHeightOfTerrain(300, 150), 150), 0, 140, 0, 2);
@@ -174,7 +176,7 @@ public class MainGameLoop {
 				renderer.processEntity(rock);
 			}
 			
-			renderer.render(light,  camera);
+			renderer.render(lights,  camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
